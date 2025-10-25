@@ -6,12 +6,12 @@
         xmlns:local="clr-namespace:_25._10"
         xmlns:vm="clr-namespace:_25._10.ViewModels"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="1000">
     <d:Window.DataContext>
         <vm:MainWindowViewModel/>
     </d:Window.DataContext>
     <StackPanel>
         <DataGrid ItemsSource="{Binding Collection}" />
-        <Button Height="30" Content="Click" Command="{Binding AddItemCommand}"/>
+        <!--<Button Height="30" Content="Click" Command="{Binding AddItemCommand}"/> -->
     </StackPanel>
 </Window>
