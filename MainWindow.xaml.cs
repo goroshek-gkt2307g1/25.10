@@ -15,12 +15,11 @@ namespace _25._10
 {
     public partial class MainWindow : Window
     {
-        private MainWindowViewModel m;
+        private readonly MainWindowViewModel _viewModel;
         public MainWindow()
         {
             InitializeComponent();
-            m = new();
-            DataContext = m;
+            DataContext = _viewModel = new();
         }
     }
 }

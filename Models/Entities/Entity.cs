@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel;
 
-namespace _25._10.Models
+namespace _25._10.Models.Entities
 {
-    public class MyClass : INotifyPropertyChanged
+    public class Entity : INotifyPropertyChanged
     {
         private int intProperty;
         private string strProperty;
@@ -29,9 +29,9 @@ namespace _25._10.Models
             }
         }
 
-        public MyClass() { }
+        public Entity() { }
 
-        public MyClass(int intProperty, string strProperty)
+        public Entity(int intProperty, string strProperty)
         {
             IntProperty = intProperty;
             StrProperty = strProperty;

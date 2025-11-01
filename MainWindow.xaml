@@ -5,13 +5,67 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:_25._10"
         xmlns:vm="clr-namespace:_25._10.ViewModels"
+        xmlns:conv="clr-namespace:_25._10.Converters"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="1000">
+        Title="Пример" Height="450" Width="500"
+        WindowStartupLocation="CenterScreen"
+        x:Name="win">
+    <Window.Resources>
+        <conv:CutOffUserConverter x:Key="cutOffConverter" Min="25"/>
+    </Window.Resources>
     <d:Window.DataContext>
         <vm:MainWindowViewModel/>
     </d:Window.DataContext>
-    <StackPanel>
-        <DataGrid ItemsSource="{Binding Collection}" />
-        <!--<Button Height="30" Content="Click" Command="{Binding AddItemCommand}"/> -->
-    </StackPanel>
+    <Grid>
+
+
+        <ItemsControl ItemsSource="{Binding Courses}" Background="#FFE0F0F5">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Horizontal"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Border Padding="5" Margin="5" BorderThickness="1" BorderBrush="Black" Background="AliceBlue">
+                        <Border.Style>
+                            <Style TargetType="Border">
+                            </Style>
+                        </Border.Style>
+                        <DockPanel>
+                            <StackPanel>
+                                <TextBlock FontSize="18" FontWeight="SemiBold" TextDecorations="Underline">
+                                <Run Text="{Binding Id}"/>
+                                <Run Text=" | "/>
+                                <Run Text="{Binding Title}"/>
+                                </TextBlock>
+                                <TextBlock>
+                                <Run Text="Номер телефона: " FontWeight="Bold"/>
+                                <Run Text="{Binding Phone}"/>
+                                </TextBlock>
+                                <TextBlock>
+                                <Run Text="Описание: " FontWeight="Bold"/>
+                                </TextBlock>
+                                <TextBlock TextTrimming="CharacterEllipsis">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Text" Value="{Binding Information}"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Information}" Value="">
+                                                    <Setter Property="Text" Value="Информация отсутствует"/>
+                                                    <Setter Property="Opacity" Value="0.5"/>
+                                                    <Setter Property="FontStyle" Value="Italic"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </StackPanel>
+                        </DockPanel>
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </Grid>
+    
 </Window>
