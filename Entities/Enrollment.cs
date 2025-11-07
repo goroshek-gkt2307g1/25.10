@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using _25._10.Models.Entities;
 
 namespace _25._10.Entities;
 

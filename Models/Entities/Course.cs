@@ -1,4 +1,5 @@
-﻿using System;
+﻿using _25._10.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,49 +8,40 @@ using System.Windows.Media;
 
 namespace _25._10.Models.Entities
 {
-    public class Course(int id, string title, string description, DateTime creationDate,
-        string mentor, string status) : Entity
+    public class Course(int id, string title, string description, string mentor, string status) : Entity
     {
         private string _title = title;
         private string _description = description;
-        private DateTime _creationDate = creationDate;
         private string _mentor = mentor;
         private string _status = status;
 
-        public int Id
-        {
-            get;
-            init;
-        } = id;
+        public int CourseId { get; init; } = id;
 
-        public string Title
+        public string CourseTitle
         {
-            get { return _title; }
+            get => _title;
             set { _title = value; OnPropertyChanged(); }
         }
 
-        public string Description
+        public string CourseDescription
         {
-            get { return _description; }
+            get => _description;
             set { _description = value; OnPropertyChanged(); }
-        }
-
-        public DateTime CreationDate
-        {
-            get { return _creationDate; }
-            set { _creationDate = value; OnPropertyChanged(); }
         }
 
         public string Mentor
         {
-            get { return _mentor; }
+            get => _mentor;
             set { _mentor = value; OnPropertyChanged(); }
         }
+
         public string Status
         {
-            get { return _status; }
+            get => _status;
             set { _status = value; OnPropertyChanged(); }
         }
+
+        public string UserEnrollmentStatus { get; set; } = "NOT_APPLIED";
 
     }
 }

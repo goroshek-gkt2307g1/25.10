@@ -7,65 +7,149 @@
         xmlns:vm="clr-namespace:_25._10.ViewModels"
         xmlns:conv="clr-namespace:_25._10.Converters"
         mc:Ignorable="d"
-        Title="Пример" Height="450" Width="500"
+        Title="Платформа" Height="450" Width="850"
         WindowStartupLocation="CenterScreen"
         x:Name="win">
     <Window.Resources>
-        <conv:CutOffUserConverter x:Key="cutOffConverter" Min="25"/>
+        <conv:EnrollmentToButtonConverter x:Key="EnrollmentToButtonConverter"/>
+        
+        <Style x:Key="ApplicationButtonStyle" TargetType="Button">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="10"/>
+            <Setter Property="FontFamily" Value="SemiBold"/>
+            <Setter Property="Margin" Value="2,10,2,0"/>
+            <Setter Property="Background" Value="Green"/>
+
+            <Style.Triggers>
+                <Trigger Property="Content" Value="Отозвать отклик">
+                    <Setter Property="Background" Value="#FF92908C"/>
+                </Trigger>
+                <Trigger Property="Content" Value="Перейти к курсу">
+                    <Setter Property="Background" Value="#FF12128D"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
     </Window.Resources>
     <d:Window.DataContext>
         <vm:MainWindowViewModel/>
     </d:Window.DataContext>
+    
     <Grid>
+        <!-- разделы -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
+        <Border Grid.Row="0" Grid.ColumnSpan="2" Padding="10" Background="#FFA3C4CE">
+            <Grid>
+                <TextBlock Text="Поиск курсов" VerticalAlignment="Center"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Content="Профиль" VerticalAlignment="Center"/>
+                    <Button Content="     " Background="#FF7F848F" Margin="5,0,0,0"/>
+                </StackPanel>
+            </Grid>
+        </Border>
 
-        <ItemsControl ItemsSource="{Binding Courses}" Background="#FFE0F0F5">
+        <Border Grid.Column="0" Grid.Row="1" Grid.RowSpan="2" Width="80"
+                Background="#FFD2ECF4">
+            <StackPanel Margin="5">
+                <Button Content="Поиск" Background="#FF999A9B" Margin="0,0,0,2"/>
+                <Button Content="Мои курсы" Background="#FF9B9999" Margin="0,0,0,2"/>
+            </StackPanel>
+
+        </Border>
+        
+        <!-- основная информация (карточки курсов)-->
+        <ScrollViewer Grid.Column="1" Grid.Row="1"
+            VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <ItemsControl ItemsSource="{Binding Courses}" Background="#FFE0F0F5">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel Orientation="Horizontal"/>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
+            
             <ItemsControl.ItemTemplate>
+                
                 <DataTemplate>
-                    <Border Padding="5" Margin="5" BorderThickness="1" BorderBrush="Black" Background="AliceBlue">
-                        <Border.Style>
-                            <Style TargetType="Border">
-                            </Style>
-                        </Border.Style>
-                        <DockPanel>
+                        <Border Padding="5" Margin="5" BorderThickness="1" 
+                            BorderBrush="Black" Background="#FFDBECFA"
+                            CornerRadius="5">
                             <StackPanel>
-                                <TextBlock FontSize="18" FontWeight="SemiBold" TextDecorations="Underline">
-                                <Run Text="{Binding Id}"/>
-                                <Run Text=" | "/>
-                                <Run Text="{Binding Title}"/>
-                                </TextBlock>
-                                <TextBlock>
-                                <Run Text="Номер телефона: " FontWeight="Bold"/>
-                                <Run Text="{Binding Phone}"/>
-                                </TextBlock>
-                                <TextBlock>
-                                <Run Text="Описание: " FontWeight="Bold"/>
-                                </TextBlock>
-                                <TextBlock TextTrimming="CharacterEllipsis">
-                                    <TextBlock.Style>
-                                        <Style TargetType="TextBlock">
-                                            <Setter Property="Text" Value="{Binding Information}"/>
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding Information}" Value="">
-                                                    <Setter Property="Text" Value="Информация отсутствует"/>
-                                                    <Setter Property="Opacity" Value="0.5"/>
-                                                    <Setter Property="FontStyle" Value="Italic"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </TextBlock.Style>
-                                </TextBlock>
+                                <StackPanel Width="200" Background="AliceBlue">
+                                    
+                                    <!-- заголовок -->
+                                    <TextBlock Margin="5,0,0,0" FontSize="16" FontWeight="SemiBold" TextDecorations="Underline">
+                                      <Run Text="{Binding CourseTitle}"/>
+                                       </TextBlock>
+                                    
+                                    <!-- описание -->
+                                    <TextBlock Margin="5,0,0,0"
+                                               TextTrimming="CharacterEllipsis">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Text" Value="{Binding CourseDescription}"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding CourseDescription}" Value="">
+                                                        <Setter Property="Text" Value="Информация отсутствует"/>
+                                                        <Setter Property="Opacity" Value="0.5"/>
+                                                        <Setter Property="FontStyle" Value="Italic"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                    
+                                    <!-- наставник -->
+                                    <Grid Margin="0,3,0,0">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock Grid.Row="0" Grid.Column="0" Margin="5,0,0,0">
+                                        <Run Text="Наставник: " FontWeight="Bold"/>
+                                        </TextBlock>
+                                        
+                                        <TextBlock Grid.Row="1" Grid.Column="0" Margin="5,0,0,0"
+                                        TextTrimming="CharacterEllipsis">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Text" Value="{Binding Mentor}"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Mentor}" Value="">
+                                                            <Setter Property="Text" Value="Информация отсутствует"/>
+                                                            <Setter Property="Opacity" Value="0.5"/>
+                                                            <Setter Property="FontStyle" Value="Italic"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+
+                                        <!-- кнопка Записаться -->
+                                        <Button Grid.Row="0" Grid.Column="1" Grid.RowSpan="2"
+                                            Style="{StaticResource ApplicationButtonStyle}"
+                                            Content="{Binding UserEnrollmentStatus, Converter={StaticResource EnrollmentToButtonConverter}}"
+                                            Command="{Binding DataContext.HandleEnrollmentCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                            CommandParameter="{Binding}"/>
+                                    </Grid>
+                                </StackPanel>
                             </StackPanel>
-                        </DockPanel>
-                    </Border>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
     </Grid>
-    
 </Window>

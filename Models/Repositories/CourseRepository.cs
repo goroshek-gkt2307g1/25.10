@@ -11,13 +11,21 @@ namespace _25._10.Models.Repositories
     public class CourseRepository : IRepository<Course>
     {
         private List<Course> _courses = [
-            new Course(1, "Программист .NET", "Пройди основы .NET", DateTime.Now, "Петров А.П", "Активна"),
-            new Course(2,"Программист Python", "Пройди основы Python", DateTime.Now, "Петров А.П", "Активна"),
-            new Course(3,"Программист Scratch", "Пройди основы Scratch", DateTime.Now, "Петров А.П", "Активна"),
-            new Course(4,"Английский язык", "Прокачай свой уровень английского", DateTime.Now, "Петров А.П", "Активна"),
-    ];
+            new Course(1, "Программист .NET", "Пройди основы .NET и C#", "Петров А.П", "Активна") {UserEnrollmentStatus = "APPROVED"},
+        new Course(2, "Data Science на Python", "Анализ данных и машинное обучение", "Иванова М.К", "Активна" ) {UserEnrollmentStatus = "NOT_APPLIED" },
+        new Course(3, "Веб-разработка", "Full-stack разработка современных приложений", "Сидоров В.Л", "Активна") {UserEnrollmentStatus = "NOT_APPLIED" },
+        new Course(4, "Английский для IT", "Технический английский и коммуникация", "Козлова Е.В", "Активна") {UserEnrollmentStatus = "APPROVED" },
+        new Course(5, "Тестирование ПО", "Автоматизация тестирования и QA", "Соколова Е.П", "Активна") {UserEnrollmentStatus = "PENDING" },
+        new Course(6, "DevOps практики", "CI/CD, контейнеризация и облака", "Федоров Д.С", "Активна") {UserEnrollmentStatus = "NOT_APPLIED" },
+        new Course(7, "Мобильная разработка", "Создание приложений для iOS и Android", "Николаев П.Р", "Активна") {UserEnrollmentStatus = "NOT_APPLIED" },
+        new Course(8, "Кибербезопасность", "", "Орлов А.В", "Активна") {UserEnrollmentStatus = "NOT_APPLIED" },
+        new Course(9, "UX/UI дизайн", "Проектирование интерфейсов и разработка макетов", "Морозова Т.И", "Активна") {UserEnrollmentStatus = "PENDING" },
+        new Course(10, "Управление проектами", "Agile, Scrum и менеджмент IT-проектов", "Волков С.М", "Активна") {UserEnrollmentStatus = "REJECTED" }
+        ];
+
         public Course? Find(Predicate<Course> predicate) => _courses.Find(predicate);
-        public Course? Get(int id) => _courses.FirstOrDefault(x => x.Id == id);
+        public Course? Get(int id) => _courses.FirstOrDefault(x => x.CourseId == id);
         public IEnumerable<Course> GetAll() => _courses;
+
     }
 }
