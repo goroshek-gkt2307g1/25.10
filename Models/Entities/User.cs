@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace _25._10.Models.Entities
 {
-    public class User(int id, string username, string phone, string info, int rating) : Entity
+    public class User(int id, string username, string phone, string info, int rating) : PropertyChangedBase
     {
         
         private string _username = username;

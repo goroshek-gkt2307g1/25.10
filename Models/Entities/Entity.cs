@@ -1,14 +1,16 @@
 ﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace _25._10.Models.Entities
 {
-    public class Entity : INotifyPropertyChanged
+    public class PropertyChangedBase : INotifyPropertyChanged
     {
         private int intProperty;
         private string strProperty;
 
+        [NotMapped]
         public int IntProperty
-        { 
+        {
             get => intProperty;
             set
             {
@@ -19,19 +21,21 @@ namespace _25._10.Models.Entities
                 }
             }
         }
+
+        [NotMapped]
         public string StrProperty
         {
             get => strProperty;
             set
             {
-                 strProperty = value;
-                 OnPropertyChanged();
+                strProperty = value;
+                OnPropertyChanged();
             }
         }
 
-        public Entity() { }
+        public PropertyChangedBase() { }
 
-        public Entity(int intProperty, string strProperty)
+        public PropertyChangedBase(int intProperty, string strProperty)
         {
             IntProperty = intProperty;
             StrProperty = strProperty;

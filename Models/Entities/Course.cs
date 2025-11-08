@@ -8,12 +8,13 @@ using System.Windows.Media;
 
 namespace _25._10.Models.Entities
 {
-    public class Course(int id, string title, string description, string mentor, string status) : Entity
+    public class Course(int id, string title, string description, string mentor, string status) : PropertyChangedBase
     {
         private string _title = title;
         private string _description = description;
         private string _mentor = mentor;
         private string _status = status;
+
 
         public int CourseId { get; init; } = id;
 
@@ -42,6 +43,10 @@ namespace _25._10.Models.Entities
         }
 
         public string UserEnrollmentStatus { get; set; } = "NOT_APPLIED";
+
+        public Course() : this(0, "", "", "", "")
+        {
+        }
 
     }
 }

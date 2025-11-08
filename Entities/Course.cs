@@ -4,10 +4,10 @@ using System.Collections.Generic;
 
 namespace _25._10.Entities;
 
-public class Course(int id, string title, string description, string mentor, string status) : Entity
+public class Course(int courseid, string coursetitle, string coursedescription, string mentor, string status) : PropertyChangedBase
 {
-    private string _title = title;
-    private string _description = description;
+    private string _title = coursetitle;
+    private string _description = coursedescription;
     private string _mentor = mentor;
     private string _status = status;
 
@@ -19,7 +19,7 @@ public class Course(int id, string title, string description, string mentor, str
         set { _title = value; OnPropertyChanged(); }
     }
 
-    public string CourseDescription
+    public string course_Description
     {
         get => _description;
         set { _description = value; OnPropertyChanged(); }

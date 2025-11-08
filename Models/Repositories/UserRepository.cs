@@ -17,9 +17,24 @@ namespace _25._10.Models.Repositories
             new User(4, "t2x2", "31456311", "hehe", -9999),
             new User(5, "stint", "123123123", "stintler", 666)
             ];
+
+        public void Add(Course course)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Delete(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public User? Find(Predicate<User> predicate) => _users.Find(predicate);
         public User? Get(int id) => _users.FirstOrDefault(x => x.Id == id);
         public IEnumerable<User> GetAll() => _users;
 
+        public void Update(int id, Course course)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
