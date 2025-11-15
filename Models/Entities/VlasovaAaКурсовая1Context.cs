@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using _25._10.Models.Entities;
+using _25._10.Models.Entities.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace _25._10.Entities;
@@ -40,7 +41,7 @@ public partial class VlasovaAaКурсовая1Context : DbContext
 
     public virtual DbSet<RolePermission> RolePermissions { get; set; }
 
-    public virtual DbSet<Task> Tasks { get; set; }
+    public virtual DbSet<Models.Entities.Entities.Task> Tasks { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
@@ -65,7 +66,7 @@ public partial class VlasovaAaКурсовая1Context : DbContext
                 .HasMaxLength(100)
                 .HasColumnName("full_name");
             entity.Property(e => e.HireDate).HasColumnName("hire_date");
-            entity.Property(e => e.PasswordHash)
+            entity.Property(e => e.Password)
                 .HasMaxLength(255)
                 .HasColumnName("password_hash");
             entity.Property(e => e.RoleIdFk).HasColumnName("role_ID_FK");
@@ -302,7 +303,7 @@ public partial class VlasovaAaКурсовая1Context : DbContext
                 .HasConstraintName("FK__Role_perm__role___3B75D760");
         });
 
-        modelBuilder.Entity<Task>(entity =>
+        modelBuilder.Entity<Models.Entities.Entities.Task>(entity =>
         {
             entity.HasKey(e => e.TaskId).HasName("PK__Task__049318B510E9E2C3");
 

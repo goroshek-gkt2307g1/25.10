@@ -1,27 +1,27 @@
 ﻿using _25._10.Domain;
 using _25._10.Interfaces;
-using _25._10.Models.Entities;
+using _25._10.Models.Entities.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace _25._10.Models.Repositories
 {
     public class CourseRepository : IRepository<Course>
     {
-
         public void Add(Course course)
         {
             try
             {
                 using var context = new MyDatabaseContext();
-                context.Add(course);
+                context.Courses.Add(course); // Исправлено: context.Courses вместо context.Add
                 context.SaveChanges();
             }
-            catch { }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error adding course: {ex.Message}");
+            }
         }
 
         public void Update(int id, Course course)
@@ -29,16 +29,21 @@ namespace _25._10.Models.Repositories
             try
             {
                 using var context = new MyDatabaseContext();
-                var _courseInDb = context.Course.FirstOrDefault(x => x.CourseId == id);
-                if (_courseInDb != null)
+                var courseInDb = context.Courses.FirstOrDefault(x => x.CourseId == id);
+                if (courseInDb != null)
                 {
-                    _courseInDb.CourseTitle = course.CourseTitle;
-                    _courseInDb.CourseDescription = course.CourseDescription;
-                    context.Update(_courseInDb);
+                    courseInDb.CourseTitle = course.CourseTitle;
+                    courseInDb.CourseDescription = course.CourseDescription;
+                    // Добавь другие свойства Course если есть
+
+                    context.Courses.Update(courseInDb);
+                    context.SaveChanges();
                 }
-                context.SaveChanges();
             }
-            catch { }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error updating course: {ex.Message}");
+            }
         }
 
         public void Delete(int id)
@@ -46,32 +51,38 @@ namespace _25._10.Models.Repositories
             try
             {
                 using var context = new MyDatabaseContext();
-                var course = context.Course.FirstOrDefault(x => x.CourseId == id);
+                var course = context.Courses.FirstOrDefault(x => x.CourseId == id);
                 if (course != null)
-                    context.Course.Remove(course);
-                context.SaveChanges();
+                {
+                    context.Courses.Remove(course);
+                    context.SaveChanges();
+                }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error deleting course: {ex.Message}");
+            }
         }
-
 
         public Course? Find(Predicate<Course> predicate)
         {
             using var context = new MyDatabaseContext();
-            return context.Course.FirstOrDefault(c => predicate(c));
+            return context.Courses
+                .AsEnumerable() 
+                .FirstOrDefault(c => predicate(c));
         }
 
         public Course? Get(int id)
         {
             using var context = new MyDatabaseContext();
-            return context.Course.FirstOrDefault(x => x.CourseId == id);
+            return context.Courses
+                .FirstOrDefault(x => x.CourseId == id);
         }
 
         public IEnumerable<Course> GetAll()
         {
             using var context = new MyDatabaseContext();
-            return [.. context.Course];
+            return context.Courses.ToList();
         }
-
     }
 }

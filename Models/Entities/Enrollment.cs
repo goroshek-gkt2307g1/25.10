@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using _25._10.Models.Entities;
 
-namespace _25._10.Entities;
+namespace _25._10.Models.Entities.Entities;
 
 public partial class Enrollment
 {

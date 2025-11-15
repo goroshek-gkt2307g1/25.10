@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace _25._10.Entities;
+namespace _25._10.Models.Entities.Entities;
 
 public partial class Account
 {
@@ -9,7 +9,7 @@ public partial class Account
 
     public string Username { get; set; } = null!;
 
-    public string PasswordHash { get; set; } = null!;
+    public string Password { get; set; } = null!;
 
     public string FullName { get; set; } = null!;
 

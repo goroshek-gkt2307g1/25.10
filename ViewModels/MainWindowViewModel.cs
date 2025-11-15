@@ -2,28 +2,31 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using _25._10.Models.Entities;
+using _25._10.Models.Entities.Entities;
 using _25._10.Models.Repositories;
 using _25._10.Commands;
 using System.Collections.Specialized;
+using System.Linq;
+using _25._10.Models.Entities;
 
 namespace _25._10.ViewModels
 {
-    internal class MainWindowViewModel : PropertyChangedBase
+    public class MainWindowViewModel : PropertyChangedBase
     {
         private MyCommand _addCommand;
         private MyCommand _updateCommand;
         private MyCommand _deleteCommand;
-        private ObservableCollection<Course> _courses;
-        private readonly CourseRepository _courseRepository;
-        public ObservableCollection<Course> Courses
+        private ObservableCollection<Account> _accounts;
+        private readonly AccountRepository _accountRepository;
+
+        public ObservableCollection<Account> Accounts
         {
-            get => _courses;
+            get => _accounts;
             set
             {
                 if (value != null)
                 {
-                    _courses = value;
+                    _accounts = value;
                     OnPropertyChanged();
                 }
             }
@@ -34,22 +37,23 @@ namespace _25._10.ViewModels
             get => _addCommand ??= new MyCommand(
             (obj) =>
             {
-                Course course = new();
-                GetUsersView();
-                _courseRepository.Add(course);
+                Account account = new();
+                GetAccountsView();
+                _accountRepository.Add(account);
             }, (obj) => true
             );
         }
+
         public MyCommand UpdateCommand
         {
             get => _updateCommand ??= new MyCommand(
             (obj) =>
             {
-                var course = Courses.Last();
-                course.CourseDescription = "Обнова описания";
-                _courseRepository.Update(course.CourseId, course);
-                GetUsersView();
-            }, (obj) => Courses.Count > 0
+                var account = Accounts.Last();
+                account.AccountDescription = "Обнова описания";
+                _accountRepository.Update(account.AccountId, account);
+                GetAccountsView();
+            }, (obj) => Accounts.Count > 0
             );
         }
 
@@ -58,40 +62,39 @@ namespace _25._10.ViewModels
             get => _deleteCommand ??= new MyCommand(
             (obj) =>
             {
-                var course = Courses.Last();
-                _courseRepository.Delete(course.CourseId);
-                GetUsersView();
-            }, (obj) => Courses.Count > 0
+                var account = Accounts.Last();
+                _accountRepository.Delete(account.AccountId);
+                GetAccountsView();
+            }, (obj) => Accounts.Count > 0
             );
         }
 
-
         public MainWindowViewModel()
         {
-            _courseRepository = new();
-            GetUsersView();
-            Courses.CollectionChanged += Courses_CollectionChanged;
+            _accountRepository = new AccountRepository();
+            GetAccountsView();
+            Accounts.CollectionChanged += Accounts_CollectionChanged;
         }
 
-        private void Courses_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        private void Accounts_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.Action == NotifyCollectionChangedAction.Add)
             {
                 if (e.NewItems != null)
                 {
-                    foreach (Course course in e.NewItems)
+                    foreach (Account account in e.NewItems)
                     {
-                        _courseRepository.Add(course);
+                        _accountRepository.Add(account);
                     }
                 }
             }
             //другие проверки...
         }
 
-        private void GetUsersView()
+        private void GetAccountsView()
         {
-            var collection = _courseRepository.GetAll();
-            Courses = new ObservableCollection<Course>(collection);
+            var collection = _accountRepository.GetAll();
+            Accounts = new ObservableCollection<Account>(collection);
         }
     }
 }
